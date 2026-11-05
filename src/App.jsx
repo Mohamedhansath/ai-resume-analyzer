@@ -64,7 +64,7 @@ function App(){
   event.preventDefault();
   const email=loginEmail.trim().toLowerCase();
   const name=loginName.trim();
-  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){setNotice("Enter a valid email address.");return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){setNotice("Enter a valid email address.");return;}
   if(loginMode==="create"&&!name){setNotice("Enter your name to create a local profile.");return;}
   const existingEmail=(data.profile.email||"").trim().toLowerCase();
   if(existingEmail&&existingEmail!==email){setNotice("This browser already has a local profile with a different email. Use that email or clear local data first.");return;}
