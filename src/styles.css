@@ -104,3 +104,54 @@ body{background:#F6F1EA;color:#29231F}
 .missing-chip{background:#F9E7E3;color:#A94A3D}
 .keyword-chip{background:#F3EDE5;color:#75675C}
 @media(max-width:760px){.sidebar{box-shadow:10px 0 35px rgba(35,22,16,.18)}}
+
+
+/* Mobile navigation layering and scroll containment */
+.sidebar{z-index:100;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.sidebar.sidebar-open{z-index:100}
+.scrim{z-index:90}
+.topbar{z-index:10}
+.sidebar-bottom{padding-bottom:env(safe-area-inset-bottom)}
+@media(max-width:760px){
+ .sidebar{width:min(300px,86vw);padding:20px 16px calc(16px + env(safe-area-inset-bottom));}
+ .sidebar-close{display:grid;flex-shrink:0}
+ .sidebar-open .sidebar-close{position:sticky;top:0}
+ .scrim{display:block;position:fixed;inset:0;background:rgba(30,23,18,.58);border:0;z-index:90;backdrop-filter:blur(2px)}
+ .main-area{position:relative;z-index:1}
+ .topbar{z-index:10}
+}
+
+/* Passwordless local sign-in screen */
+.auth-screen{min-height:100vh;min-height:100dvh;position:relative;overflow:hidden;display:grid;place-items:center;padding:28px 18px;background:radial-gradient(circle at 12% 12%,#F3DCCB 0,transparent 32%),radial-gradient(circle at 90% 88%,#EBD3C2 0,transparent 30%),#F6F1EA}
+.auth-glow{position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none}
+.auth-glow-one{width:280px;height:280px;background:#E9B99F55;top:-110px;right:8%}
+.auth-glow-two{width:220px;height:220px;background:#C45B3520;bottom:-90px;left:8%}
+.auth-card{width:min(100%,460px);position:relative;z-index:1;background:#FFFCF8;border:1px solid #E9DED2;border-radius:24px;padding:34px;box-shadow:0 24px 80px rgba(67,42,27,.12)}
+.auth-brand{display:flex;align-items:center;gap:10px;font:800 22px Manrope,sans-serif;letter-spacing:-1px;color:#29231F}
+.auth-brand .brand-mark{width:38px;height:38px}
+.auth-art{height:124px;margin:28px 0 25px;border-radius:17px;background:linear-gradient(115deg,#38251E,#A94B2B);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.auth-art:before,.auth-art:after{content:"";position:absolute;border:1px solid #FFFFFF24;border-radius:50%;width:180px;height:180px}
+.auth-art:after{width:240px;height:240px}
+.auth-art-icon{width:62px;height:62px;border-radius:18px;background:#FFF4EA;color:#B94F2D;display:grid;place-items:center;box-shadow:0 10px 25px #24150F40;z-index:1}
+.auth-art-lines{position:absolute;right:24px;top:28px;display:grid;gap:7px;width:72px}
+.auth-art-lines i{height:5px;border-radius:8px;background:#FFFFFF55}
+.auth-art-lines i:nth-child(2){width:72%}.auth-art-lines i:nth-child(3){width:48%}
+.auth-art-score{position:absolute;left:18px;bottom:14px;display:flex;align-items:center;gap:6px;color:#FFE3D2;font-size:9px;letter-spacing:.4px}
+.auth-copy h1{font:800 27px/1.2 Manrope,sans-serif;letter-spacing:-1px;color:#29231F;margin:9px 0}
+.auth-copy p{font-size:12px;line-height:1.7;color:#887C72;margin:0}
+.auth-form{display:grid;gap:15px;margin-top:24px}
+.auth-label{display:block;font-size:10px;font-weight:700;color:#5E5148}
+.auth-input{height:47px;border:1px solid #E9DED2;border-radius:10px;background:#FFFEFC;display:flex;align-items:center;gap:10px;padding:0 13px;margin-top:7px;color:#A98E7D}
+.auth-input:focus-within{border-color:#C45B35;box-shadow:0 0 0 3px #C45B351A}
+.auth-input input{border:0;outline:0;min-width:0;flex:1;background:transparent;color:#29231F;font-size:12px}
+.auth-input input::placeholder{color:#B5A79D}
+.auth-input-icon{display:flex}
+.auth-submit{width:100%;height:47px;justify-content:center;margin-top:5px;gap:9px}
+.auth-switch{display:flex;justify-content:center;gap:5px;margin-top:20px;color:#8B7D72;font-size:10px}
+.auth-switch button{border:0;background:none;color:#A94B2B;font-size:10px;font-weight:700;padding:0}
+.auth-local-note{display:flex;gap:8px;align-items:flex-start;padding:11px 12px;background:#F6EEE5;border-radius:9px;margin-top:22px;color:#956342}
+.auth-local-note svg{flex-shrink:0;margin-top:1px}
+.auth-local-note span{font-size:9px;line-height:1.55;color:#806E5F}
+.signout-nav{color:#D7A28B!important}
+.signout-nav:hover{background:#553629!important;color:#FFF1E8!important}
+@media(max-width:480px){.auth-card{padding:24px 20px;border-radius:19px}.auth-art{height:108px;margin:23px 0}.auth-copy h1{font-size:24px}}
