@@ -36,3 +36,71 @@ body{background:#F8F7FC;color:var(--ink)}
 .workspace-avatar,.user-avatar,.top-avatar{background:#E8E2FF;color:#5B43CE}
 .resume-visual{box-shadow:0 18px 35px rgba(37,22,77,.28)}
 .score-float{box-shadow:0 8px 25px rgba(37,22,77,.2)}
+
+/* New theme: Saffron Ember — warm ivory, charcoal and burnt orange */
+:root{--ink:#29231F;--muted:#887C72;--line:#E9DED2;--green:#C45B35;--green-dark:#9F4326;--pale:#F8E9DF;--white:#FFFCF8;--shadow:0 12px 34px rgba(67,42,27,.075)}
+body{background:#F6F1EA;color:#29231F}
+.sidebar{background:#29231F;color:#F9F1E8;border-right:1px solid #40342D}
+.brand{color:#FFF8F0}.brand-mark{background:#C45B35;color:#FFF9F3}
+.brand-dot{color:#E99A6E}
+.workspace-switch{background:#382E28;border-color:#4A3B32;color:#FFF4E9}
+.workspace-avatar,.user-avatar,.top-avatar{background:#F1D5C4;color:#9F4326}
+.nav-label{color:#A99A8E}
+.nav-item{color:#C7B9AD}
+.nav-item:hover{background:#40342D;color:#FFF8F0}
+.nav-item.active{background:#553629;color:#FFD6C1}
+.nav-count{background:#6A4534;color:#FFF2E8}
+.sidebar-bottom .nav-item{color:#D5C8BC}
+.upgrade-card{background:#3A2E27;border-color:#554033;color:#FFF5EB}
+.upgrade-icon,.stat-icon,.soft-icon,.quick-icon,.guide-icon,.file-icon,.learning-icon{background:#F8E9DF;color:#B94F2D}
+.upgrade-card p{color:#C7B7AA}.upgrade-card button,.text-btn{color:#E99A6E}
+.user-mini{border-top-color:#4A3B32}.user-mini b{color:#FFF5EB}.user-mini small{color:#BBAEA2}
+.main-area{background:#F6F1EA}
+.topbar{background:rgba(250,246,240,.93);border-bottom-color:#E9DED2}
+.crumb{color:#95877C}.crumb b{color:#352C26}
+.status-pill{background:#F1E8DE;color:#75675C}
+.status-pill span{background:#C45B35}
+.icon-btn{color:#81746A}.icon-btn:hover{background:#F0E5DA;color:#29231F}
+.panel{background:#FFFCF8;border-color:#E9DED2;box-shadow:0 12px 34px rgba(67,42,27,.055)}
+.hero-card{background:linear-gradient(112deg,#38251E 0%,#81432C 58%,#C45B35 100%)}
+.hero-copy h2 em{color:#FFC49F}
+.hero-chip{background:#FFFFFF18;border-color:#FFFFFF35}
+.resume-visual{box-shadow:0 18px 35px rgba(35,22,16,.34)}
+.score-float{box-shadow:0 8px 25px rgba(35,22,16,.24)}
+.score-ring{border-color:#E9B18F;color:#A64A2B}
+.btn-primary{background:#C45B35;color:#fff;box-shadow:0 5px 14px rgba(196,91,53,.22)}
+.btn-primary:hover{background:#9F4326}
+.btn-light{background:#FFF5EC;color:#8E3D24}
+.btn-outline{border-color:#E7D9CC;color:#6B4B3A}
+.btn-outline:hover{border-color:#D49A7D}
+.btn:focus-visible,.icon-btn:focus-visible,.nav-item:focus-visible{outline-color:#E7A17D}
+.dropzone{background:#FBF7F1;border-color:#DCC9B9}
+.dropzone:hover,.dropzone.has-file{background:#F9EDE4;border-color:#C45B35}
+.upload-symbol,.guide-icon,.file-icon,.quick-icon,.learning-icon,.stat-icon,.soft-icon{background:#F8E9DF;color:#B94F2D}
+.privacy-note{background:#F4EEE3;color:#8D6845}
+.privacy-note span{color:#786B5C}.privacy-note b{color:#81502F}
+.notice-box{background:#FFF3E2;color:#9A632F}
+.notice-box p{color:#876A4D}
+.skill-chip,.job-tag,.count-chip{background:#F8E9DF;color:#A94A2A}
+.score-badge.good{background:#F8E9DF;color:#A94A2A}
+.score-badge.mid{background:#F9F0DF;color:#986A2E}
+.progress-track span{background:linear-gradient(90deg,#B94F2D,#E99A6E)}
+.big-ring{background:conic-gradient(#C45B35 var(--score),#EEE4D9 0)}
+.match-banner{background:linear-gradient(100deg,#38251E,#A94B2B)}
+.match-banner-icon{background:#FFFFFF20}
+.job-card,.recent-panel,.quick-panel{background:#FFFCF8}
+.job-tag{color:#A94A2A}
+.save-btn.saved{background:#F8E9DF;color:#A94A2A;border-color:#EED2C2}
+.empty-icon{background:#F8E9DF;color:#B94F2D}
+.history-row:hover,.quick-row:hover{background:#FFFAF5}
+.modal{background:#FFFCF8}
+.field-label input{border-color:#E9DED2;outline-color:#D88A67}
+.search-box,.filter-select{border-color:#E9DED2;background:#FFFCF8}
+.workspace-switch>svg,.quick-row>svg{color:#B3A398}
+.agent-metric,.agent-input,.agent-how,.agent-list,.agent-actions{background:#FFFCF8}
+.agent-actions>.panel-heading>svg{color:#B94F2D}
+.agent-step>span{color:#C45B35}
+.agent-estimate{background:#F9F0DF;color:#986A2E}
+.missing-chip{background:#F9E7E3;color:#A94A3D}
+.keyword-chip{background:#F3EDE5;color:#75675C}
+@media(max-width:760px){.sidebar{box-shadow:10px 0 35px rgba(35,22,16,.18)}}
