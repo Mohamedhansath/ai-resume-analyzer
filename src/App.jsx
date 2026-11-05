@@ -23,8 +23,10 @@ function normalizeData(value){
   return {profile:{name:typeof profile.name==="string"?profile.name:"",headline:typeof profile.headline==="string"?profile.headline:"",targetRole:typeof profile.targetRole==="string"?profile.targetRole:"",email:typeof profile.email==="string"?profile.email:""},analyses,savedJobs:Array.isArray(source.savedJobs)?[...new Set(source.savedJobs.filter(x=>typeof x==="string"))]:[],jobDescription:typeof source.jobDescription==="string"?source.jobDescription:""};
 }
 function readStore(){ try { const raw=localStorage.getItem(STORE); return raw?normalizeData(JSON.parse(raw)):normalizeData(emptyState); } catch { return normalizeData(emptyState); } }
-function hasTerm(text,term){const escaped=term.replace(/[.*+?^${}()|[\]\\]/g,"\\const emptyState = { profile:{name:"",headline:"",targetRole:"",email:""}, analyses:[], savedJobs:[], jobDescription:"" };
-function readStore(){ try { const raw=localStorage.getItem(STORE); return raw?{...emptyState,...JSON.parse(raw)}:emptyState; } catch { return emptyState; } }");return new RegExp("(^|[^a-z0-9])"+escaped+"($|[^a-z0-9])","i").test(text);}
+function hasTerm(text,term){
+  const escaped=term.replace(/[.*+?^\${}()|[\]\\]/g,"\\$&");
+  return new RegExp("(^|[^a-z0-9])"+escaped+"($|[^a-z0-9])","i").test(text);
+}
 function scoreResume(text){
   const lower=text.toLowerCase(); const words=text.trim().split(/\s+/).filter(Boolean); const found=SKILL_BANK.filter(s=>hasTerm(lower,s));
   const sections=["experience","education","skills","projects","summary","certifications"];
