@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist";
-import { LayoutDashboard, FileSearch, BriefcaseBusiness, Sparkles, Settings, Bell, Search, Plus, UploadCloud, FileText, ChevronRight, TrendingUp, Target, CheckCircle2, AlertCircle, X, Download, Trash2, Menu, SlidersHorizontal, ArrowUpRight, Zap, BookOpen, Lightbulb, CircleHelp, ScanText, Gauge, GraduationCap, Code2, CalendarDays, Bot, ClipboardCheck, WandSparkles, FileCheck2 } from "lucide-react";
+import { LayoutDashboard, FileSearch, BriefcaseBusiness, Sparkles, Settings, Bell, Search, Plus, UploadCloud, FileText, ChevronRight, TrendingUp, Target, CheckCircle2, AlertCircle, X, Download, Trash2, Menu, SlidersHorizontal, ArrowUpRight, Zap, BookOpen, Lightbulb, CircleHelp, ScanText, Gauge, GraduationCap, Code2, CalendarDays, Bot, ClipboardCheck, WandSparkles, FileCheck2, LogOut, Mail, ArrowRight } from "lucide-react";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
 const STORE = "resumind.v1";
+const SESSION_KEY = "resumind.local-session.v1";
 const JOBS = [
   { id:"j1", role:"Frontend Developer", company:"Zoho", location:"Chennai · Hybrid", level:"Entry level", skills:["React","JavaScript","HTML","CSS","REST APIs"], type:"Full-time", tag:"Frontend" },
   { id:"j2", role:"Junior React Developer", company:"Freshworks", location:"Chennai · On-site", level:"Entry level", skills:["React","JavaScript","TypeScript","CSS","Git"], type:"Full-time", tag:"Frontend" },
@@ -52,9 +53,30 @@ function matchJob(skills,job){ const mine=new Set(skills.map(s=>s.toLowerCase())
 function initials(s=""){return s.split(" ").filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"U";}
 function App(){
  const [data,setData]=useState(readStore); const [active,setActive]=useState("Overview"); const [mobileOpen,setMobileOpen]=useState(false);
+ const [isAuthenticated,setIsAuthenticated]=useState(()=>{try{return localStorage.getItem(SESSION_KEY)==="active";}catch{return false;}});
+ const [loginName,setLoginName]=useState(()=>readStore().profile.name||"");
+ const [loginEmail,setLoginEmail]=useState(()=>readStore().profile.email||"");
+ const [loginMode,setLoginMode]=useState(()=>readStore().profile.email?"signin":"create");
  const [resumeText,setResumeText]=useState(""); const [fileName,setFileName]=useState(""); const [jobDescription,setJobDescription]=useState(readStore().jobDescription||""); const [atsReport,setAtsReport]=useState(null); const [busy,setBusy]=useState(false); const [notice,setNotice]=useState("");
  const [selected,setSelected]=useState(null); const [query,setQuery]=useState(""); const [jobFilter,setJobFilter]=useState("All roles"); const [profileOpen,setProfileOpen]=useState(false); const [profileDraft,setProfileDraft]=useState(data.profile);
  const fileRef=useRef(null);
+ function enterWorkspace(event){
+  event.preventDefault();
+  const email=loginEmail.trim().toLowerCase();
+  const name=loginName.trim();
+  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){setNotice("Enter a valid email address.");return;}
+  if(loginMode==="create"&&!name){setNotice("Enter your name to create a local profile.");return;}
+  const existingEmail=(data.profile.email||"").trim().toLowerCase();
+  if(existingEmail&&existingEmail!==email){setNotice("This browser already has a local profile with a different email. Use that email or clear local data first.");return;}
+  const profile={...data.profile,email,name:name||data.profile.name||email.split("@")[0]};
+  setData(d=>({...d,profile}));
+  try{localStorage.setItem(SESSION_KEY,"active");}catch{}
+  setIsAuthenticated(true);setNotice("Welcome to your workspace.");
+ }
+ function signOut(){
+  try{localStorage.removeItem(SESSION_KEY);}catch{}
+  setIsAuthenticated(false);setMobileOpen(false);setNotice("");
+ }
  useEffect(()=>{try{localStorage.setItem(STORE,JSON.stringify(data));}catch{setNotice("Storage is full. Export your data and remove older analyses.");}},[data]);
  useEffect(()=>{if(!notice)return;const t=setTimeout(()=>setNotice(""),3500);return()=>clearTimeout(t);},[notice]);
  const latest=data.analyses[0]; const best=data.analyses.length?Math.max(...data.analyses.map(a=>a.score)):0;
@@ -100,11 +122,27 @@ function App(){
 }
  const nav=[{label:"Workspace",items:[["Overview",LayoutDashboard],["Resume Analysis",FileSearch],["ATS Copilot",Bot],["Job Matching",BriefcaseBusiness]]},{label:"Insights",items:[["Skill Gap",Target],["Career Tips",Lightbulb]]}];
  const current=selected||latest;
+ if(!isAuthenticated)return <div className="auth-screen">
+  <div className="auth-glow auth-glow-one"/><div className="auth-glow auth-glow-two"/>
+  <section className="auth-card">
+   <div className="auth-brand"><div className="brand-mark"><ScanText size={22}/></div><span>resumind<span className="brand-dot">.</span></span></div>
+   <div className="auth-art"><div className="auth-art-icon"><FileCheck2 size={30}/></div><div className="auth-art-lines"><i/><i/><i/></div><div className="auth-art-score"><Sparkles size={13}/> Resume intelligence</div></div>
+   <div className="auth-copy"><span className="eyebrow">YOUR CAREER WORKSPACE</span><h1>{loginMode==="signin"?"Welcome back.":"Build your next opportunity."}</h1><p>{loginMode==="signin"?"Sign in to continue to your saved resume insights.":"Create a local profile to keep your resume analysis and job matches together."}</p></div>
+   <form className="auth-form" onSubmit={enterWorkspace}>
+    {loginMode==="create"&&<label className="auth-label">Full name<div className="auth-input"><input autoComplete="name" value={loginName} onChange={e=>setLoginName(e.target.value)} placeholder="Your name" required/><span className="auth-input-icon"><Settings size={16}/></span></div></label>}
+    <label className="auth-label">Email address<div className="auth-input"><Mail size={17}/><input type="email" autoComplete="email" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} placeholder="you@example.com" required/></div></label>
+    <button className="btn btn-primary auth-submit" type="submit">{loginMode==="signin"?"Sign in to workspace":"Create local profile"} <ArrowRight size={16}/></button>
+   </form>
+   <div className="auth-switch">{loginMode==="signin"?"New to Resumind?":"Already have a local profile?"}<button type="button" onClick={()=>setLoginMode(m=>m==="signin"?"create":"signin")}>{loginMode==="signin"?"Create profile":"Sign in"}</button></div>
+   <div className="auth-local-note"><CheckCircle2 size={15}/><span>Local-only workspace. Your profile and analyses stay in this browser. This is not secure account authentication.</span></div>
+  </section>
+  {notice&&<div className="toast"><AlertCircle size={17}/>{notice}<button onClick={()=>setNotice("")} aria-label="Dismiss"><X size={15}/></button></div>}
+ </div>;
  return <div className="app-shell">
   <aside className={`sidebar ${mobileOpen?"sidebar-open":""}`}><div className="brand"><div className="brand-mark"><ScanText size={21}/></div><span>resumind<span className="brand-dot">.</span></span><button className="icon-btn sidebar-close" onClick={()=>setMobileOpen(false)} aria-label="Close menu"><X size={18}/></button></div>
    <div className="workspace-switch"><div className="workspace-avatar">H</div><div><b>Personal workspace</b><small>Free plan</small></div><ChevronRight size={15}/></div>
    {nav.map(group=><div className="nav-group" key={group.label}><p className="nav-label">{group.label}</p>{group.items.map(([label,Icon])=><button key={label} className={`nav-item ${active===label?"active":""}`} onClick={()=>{setActive(label);setMobileOpen(false);}}><Icon size={18}/><span>{label}</span>{label==="Resume Analysis"&&<span className="nav-count">{data.analyses.length}</span>}</button>)}</div>)}
-   <div className="sidebar-bottom"><div className="upgrade-card"><div className="upgrade-icon"><Zap size={17}/></div><b>Make your next move count</b><p>Small resume improvements can make a big difference.</p><button onClick={()=>setActive("Career Tips")}>Explore tips <ArrowUpRight size={14}/></button></div><button className="nav-item" onClick={()=>{setProfileDraft(data.profile);setProfileOpen(true);}}><Settings size={18}/><span>Settings & profile</span></button><div className="user-mini"><div className="user-avatar">{initials(data.profile.name)}</div><div><b>{data.profile.name||"Your workspace"}</b><small>{data.profile.email||"Local profile"}</small></div><button className="icon-btn" onClick={exportData} aria-label="Export backup"><Download size={16}/></button></div></div>
+   <div className="sidebar-bottom"><div className="upgrade-card"><div className="upgrade-icon"><Zap size={17}/></div><b>Make your next move count</b><p>Small resume improvements can make a big difference.</p><button onClick={()=>setActive("Career Tips")}>Explore tips <ArrowUpRight size={14}/></button></div><button className="nav-item" onClick={()=>{setProfileDraft(data.profile);setProfileOpen(true);}}><Settings size={18}/><span>Settings & profile</span></button><button className="nav-item signout-nav" onClick={signOut}><LogOut size={18}/><span>Sign out</span></button><div className="user-mini"><div className="user-avatar">{initials(data.profile.name)}</div><div><b>{data.profile.name||"Your workspace"}</b><small>{data.profile.email||"Local profile"}</small></div><button className="icon-btn" onClick={exportData} aria-label="Export backup"><Download size={16}/></button></div></div>
   </aside>
   {mobileOpen&&<button className="scrim" onClick={()=>setMobileOpen(false)} aria-label="Close navigation"/>}
   <main className="main-area"><header className="topbar"><div className="top-left"><button className="icon-btn mobile-menu" onClick={()=>setMobileOpen(true)} aria-label="Open menu"><Menu size={20}/></button><div className="crumb">Workspace <ChevronRight size={14}/><b>{active}</b></div></div><div className="top-actions"><div className="status-pill"><span/> All data stored locally</div><button className="icon-btn notification" aria-label="Notifications"><Bell size={18}/></button><button className="top-avatar" onClick={()=>{setProfileDraft(data.profile);setProfileOpen(true);}}>{initials(data.profile.name)}</button></div></header>
