@@ -155,3 +155,17 @@ body{background:#F6F1EA;color:#29231F}
 .signout-nav{color:#D7A28B!important}
 .signout-nav:hover{background:#553629!important;color:#FFF1E8!important}
 @media(max-width:480px){.auth-card{padding:24px 20px;border-radius:19px}.auth-art{height:108px;margin:23px 0}.auth-copy h1{font-size:24px}}
+
+
+/* Full-width mobile viewport hardening */
+html,body,#root{width:100%;min-width:320px;max-width:100%;margin:0}
+body{overflow-x:hidden}
+.app-shell{width:100%;min-width:0;max-width:100vw;overflow-x:clip}
+.main-area{width:calc(100% - 252px);min-width:0}
+.page-content{width:100%;min-width:0}
+@media(max-width:760px){
+  .app-shell{width:100%;max-width:100vw}
+  .main-area{width:100%;max-width:100%;margin-left:0}
+  .topbar,.page-content{width:100%;min-width:0}
+  .sidebar{width:min(300px,86vw);max-width:86vw}
+}
