@@ -198,3 +198,22 @@ body{overflow-x:hidden}
   .settings-danger .btn{min-height:44px}
   .import-label input{max-width:100%;font-size:14px}
 }
+
+
+/* Correct responsive workspace sizing (the workspace uses .main-area) */
+html, body, #root { width: 100%; max-width: 100%; overflow-x: clip; }
+.main-area { min-width: 0; max-width: calc(100% - 252px); }
+.page-content { width: 100%; max-width: 1370px; min-width: 0; }
+.page-content > *, .panel, .content-grid > *, .analysis-layout > *, .report-grid > *, .workspace-two-col > * { min-width: 0; }
+.page-content p, .page-content h1, .page-content h2, .page-content h3, .page-content b { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .main-area { margin-left: 0 !important; width: 100%; max-width: 100%; }
+  .page-content { width: 100%; padding-left: 16px; padding-right: 16px; }
+  .topbar { width: 100%; min-width: 0; padding-left: 14px; padding-right: 14px; }
+  .top-actions { min-width: 0; gap: 8px; }
+  .status-pill { white-space: normal; }
+}
+@media (max-width: 380px) {
+  .page-content { padding-left: 12px; padding-right: 12px; }
+  .top-actions .status-pill { display: none; }
+}
